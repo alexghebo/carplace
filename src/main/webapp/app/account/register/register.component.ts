@@ -33,6 +33,10 @@ export class RegisterComponent implements AfterViewInit {
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    dealer: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    city: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    address: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    phone: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]]
   });
 
   constructor(private translateService: TranslateService, private registerService: RegisterService, private fb: FormBuilder) {}
@@ -49,6 +53,11 @@ export class RegisterComponent implements AfterViewInit {
     this.errorEmailExists = false;
     this.errorUserExists = false;
 
+    //Adding the values from the inputs
+    const dealer = this.registerForm.get(['dealer'])!.value;
+    const city = this.registerForm.get(['city'])!.value;
+    const address = this.registerForm.get(['address'])!.value;
+    const phone = this.registerForm.get(['phone'])!.value;
     const password = this.registerForm.get(['password'])!.value;
     if (password !== this.registerForm.get(['confirmPassword'])!.value) {
       this.doNotMatch = true;
@@ -56,7 +65,8 @@ export class RegisterComponent implements AfterViewInit {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
       this.registerService
-        .save({ login, email, password, langKey: this.translateService.currentLang })
+        .save({
+          login, email, dealer, city, address, phone,  password, langKey: this.translateService.currentLang})
         .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
     }
   }
