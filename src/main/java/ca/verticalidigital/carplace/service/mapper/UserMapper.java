@@ -1,8 +1,10 @@
 package ca.verticalidigital.carplace.service.mapper;
 
 import ca.verticalidigital.carplace.domain.Authority;
+import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.domain.User;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
+import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.service.dto.UserDTO;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,6 +40,14 @@ public class UserMapper {
 
     public List<User> userDTOsToUsers(List<AdminUserDTO> userDTOs) {
         return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).collect(Collectors.toList());
+    }
+
+    public List<DealerDTO> dealersToDealerDTOs(List<Dealer> dealers) {
+        return dealers.stream().filter(Objects::nonNull).map(this::dealerToDealerDTO).collect(Collectors.toList());
+    }
+
+    public DealerDTO dealerToDealerDTO(Dealer dealer) {
+        return new DealerDTO(dealer);
     }
 
     public User userDTOToUser(AdminUserDTO userDTO) {
