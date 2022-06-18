@@ -50,8 +50,6 @@ public class UserMapper {
         return new DealerDTO(dealer);
     }
 
-
-
     public User userDTOToUser(AdminUserDTO userDTO) {
         if (userDTO == null) {
             return null;
