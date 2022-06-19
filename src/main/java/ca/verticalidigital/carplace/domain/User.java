@@ -12,6 +12,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -51,22 +53,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
-
-    @Size(max = 50)
-    @Column(name = "dealer_name", length = 50, nullable = false)
-    private String dealerName;
-
-    @Size(max = 85)
-    @Column(length = 85, nullable = false)
-    private String city;
-
-    @Size(min = 5, max = 254)
-    @Column(length = 254, nullable = false)
-    private String address;
-
-    @Size(min = 5, max = 50)
-    @Column(name = "contact_phone", length = 50, nullable = false)
-    private String contactPhone;
 
     @Email
     @Size(min = 5, max = 254)
@@ -109,6 +95,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @ManyToOne
+    @JoinTable(
+        name = "rel_user_dealer",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = { @JoinColumn(name = "dealer_id", referencedColumnName = "id") }
+    )
+    @JsonIgnoreProperties(value = { "jhiUsers" }, allowSetters = true)
+    private Dealer dealer;
+
     public Long getId() {
         return id;
     }
@@ -148,34 +143,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getDealerName() {
-        return dealerName;
-    }
-    public void setDealerName(String dealerName) {
-        this.dealerName = dealerName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getContactPhone() {
-        return contactPhone;
-    }
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
     }
 
     public String getEmail() {
@@ -242,6 +209,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
+    public Dealer getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Dealer dealer) {
+        this.dealer = dealer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -266,10 +241,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
             "login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
-            ", dealerName='" + dealerName + '\'' +
-            ", city='" + city + '\'' +
-            ", address='" + address + '\'' +
-            ", contactPhone='" + contactPhone + '\'' +
             ", email='" + email + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated='" + activated + '\'' +
