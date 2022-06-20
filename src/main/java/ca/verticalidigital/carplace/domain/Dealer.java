@@ -33,22 +33,21 @@ public class Dealer implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "name")
     private String name;
 
+    @NotNull
     @Column(name = "city")
     private String city;
 
+    @NotNull
     @Column(name = "address")
     private String address;
 
+    @NotNull
     @Column(name = "phone")
     private String phone;
-
-    @OneToMany(mappedBy = "dealer")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "dealer" }, allowSetters = true)
-    private Set<User> jhiUsers = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -113,37 +112,6 @@ public class Dealer implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Set<User> getJhiUsers() {
-        return jhiUsers;
-    }
-
-    public void setJhiUsers(Set<User> jhiUsers) {
-        if(this.jhiUsers != null){
-            this.jhiUsers.forEach(i -> i.setDealer(null));
-        }
-        if(jhiUsers != null){
-            jhiUsers.forEach(i -> i.setDealer(this));
-        }
-        this.jhiUsers = jhiUsers;
-    }
-
-    public Dealer jhiUsers(Set<User> jhiUsers){
-        this.setJhiUsers(jhiUsers);
-        return this;
-    }
-
-    public Dealer addJhiUsers(User user){
-        this.jhiUsers.add(user);
-        user.setDealer(this);
-        return this;
-    }
-
-    public Dealer removeJhiUsers(User user){
-        this.jhiUsers.remove(user);
-        user.setDealer(null);
-        return this;
     }
 
     @Override

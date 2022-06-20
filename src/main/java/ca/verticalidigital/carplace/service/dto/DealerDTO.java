@@ -1,5 +1,6 @@
 package ca.verticalidigital.carplace.service.dto;
 
+import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.domain.User;
 
 import java.io.Serializable;
@@ -19,7 +20,16 @@ public class DealerDTO implements Serializable {
 
     private String phone;
 
-    private Set<User> jhiUsers = new HashSet<>();
+    public DealerDTO() {
+    }
+
+    public DealerDTO(Dealer dealer) {
+        this.id = dealer.getId();
+        this.name = dealer.getName();
+        this.city = dealer.getCity();
+        this.address = dealer.getAddress();
+        this.phone = dealer.getPhone();
+    }
 
     public Long getId() {
         return id;
@@ -61,15 +71,6 @@ public class DealerDTO implements Serializable {
         this.phone = phone;
     }
 
-    public Set<User> getJhiUsers() {
-        return jhiUsers;
-    }
-
-    public void setJhiUsers(Set<User> jhiUsers) {
-        this.jhiUsers = jhiUsers;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -101,12 +102,5 @@ public class DealerDTO implements Serializable {
             ", phone=" + getPhone() +
             "}";
     }
-
-
-
-
-
-
-
 
 }
