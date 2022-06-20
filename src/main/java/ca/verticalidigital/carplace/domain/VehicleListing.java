@@ -43,7 +43,7 @@ public class VehicleListing implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "vehicleListings", "categories" }, allowSetters = true)
-    private CarModel carModel = null;
+    private CarModel carModel;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
