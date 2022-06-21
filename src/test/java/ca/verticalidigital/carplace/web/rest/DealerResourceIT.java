@@ -23,10 +23,12 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static ca.verticalidigital.carplace.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
@@ -47,6 +49,8 @@ public class DealerResourceIT {
     private static final String UPDATED_PHONE = "UP_PHONE";
 
     private static final String ENTITY_API_URL = "/api/dealer";
+
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     @Autowired
     private DealerRepository dealerRepository;
@@ -109,5 +113,60 @@ public class DealerResourceIT {
         assertThat(testDealer.getPhone()).isEqualTo(DEFAULT_PHONE);
 
     }
+
+    @Test
+    @Transactional
+    void createCarModelWithExistingId() throws Exception {
+        // Create the CarModel with an existing ID
+        dealer.setId(1L);
+        DealerDTO dealerDTO = dealerMapper.toDto(dealer);
+
+        int databaseSizeBeforeCreate = dealerRepository.findAll().size();
+
+        restDealerMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(dealerDTO)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Dealer in the database
+
+        List<Dealer> dealerList = dealerRepository.findAll();
+        assertThat(dealerList).hasSize(databaseSizeBeforeCreate);
+
+    }
+
+    @Test
+    @Transactional
+    void getAllDealers() throws Exception {
+        dealerRepository.saveAndFlush(dealer);
+
+        // Get all the dealerList
+        restDealerMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(dealer.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
+    }
+
+    @Test
+    @Transactional
+    void getDealer() throws Exception {
+        dealerRepository.saveAndFlush(dealer);
+
+        // Get all the dealerList
+        restDealerMockMvc
+            .perform(get(ENTITY_API_URL_ID, dealer.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(dealer.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
+    }
+
 
 }
