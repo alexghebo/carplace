@@ -12,7 +12,7 @@
           "maxlength": "Numele de utilizator nu poate fi mai lung de 50 caractere.",
           "pattern": "Your username is invalid."
         },
-        "dealer": {
+        "name": {
           "required": "Numele dealerului este obligatoriu.",
           "invalid": "Numele dealerului este invalid.",
           "minlength": "Numele dealerului trebuie să aibă cel puțin 1 caracter.",
