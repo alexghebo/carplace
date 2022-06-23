@@ -2,22 +2,14 @@ package ca.verticalidigital.carplace.web.rest;
 
 import ca.verticalidigital.carplace.repository.DealerRepository;
 import ca.verticalidigital.carplace.service.DealerServiceImpl;
-import ca.verticalidigital.carplace.service.criteria.CarModelCriteria;
-import ca.verticalidigital.carplace.service.criteria.DealerCriteria;
-import ca.verticalidigital.carplace.service.dto.CarModelDTO;
 import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 import java.net.URI;
