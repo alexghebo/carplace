@@ -32,6 +32,12 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
+    public void createDealer(Dealer dealer) {
+        dealerRepository.save(dealer);
+        System.out.println(dealer);
+    }
+
+    @Override
     public DealerDTO save(DealerDTO dealerDTO) {
         log.debug("Request to save Dealer : {}", dealerDTO);
         Dealer dealer = dealerMapper.toEntity(dealerDTO);

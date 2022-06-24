@@ -2,7 +2,6 @@ package ca.verticalidigital.carplace.service.dto;
 
 import ca.verticalidigital.carplace.domain.enumeration.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;

@@ -1,13 +1,14 @@
 package ca.verticalidigital.carplace.repository;
 
 import ca.verticalidigital.carplace.domain.CarModel;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the CarModel entity.
@@ -26,4 +27,6 @@ public interface CarModelRepository
     default Page<CarModel> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    Optional<CarModel> findByMakeAndModelAndLaunchYear(String make, String model, Integer launchYear);
 }

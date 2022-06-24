@@ -7,17 +7,20 @@ import ca.verticalidigital.carplace.service.MailService;
 import ca.verticalidigital.carplace.service.UserService;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
 import ca.verticalidigital.carplace.service.dto.PasswordChangeDTO;
-import ca.verticalidigital.carplace.web.rest.errors.*;
+import ca.verticalidigital.carplace.web.rest.errors.EmailAlreadyUsedException;
+import ca.verticalidigital.carplace.web.rest.errors.InvalidPasswordException;
+import ca.verticalidigital.carplace.web.rest.errors.LoginAlreadyUsedException;
 import ca.verticalidigital.carplace.web.rest.vm.KeyAndPasswordVM;
 import ca.verticalidigital.carplace.web.rest.vm.ManagedUserVM;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.

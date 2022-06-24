@@ -5,7 +5,9 @@ import ca.verticalidigital.carplace.repository.CategoryRepository;
 import ca.verticalidigital.carplace.service.CategoryService;
 import ca.verticalidigital.carplace.service.dto.CategoryDTO;
 import ca.verticalidigital.carplace.service.mapper.CategoryMapper;
-import java.util.Optional;
+
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,21 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryMapper.toEntity(categoryDTO);
         category = categoryRepository.save(category);
         return categoryMapper.toDto(category);
+    }
+
+    @Override
+    public Set<CategoryDTO> save(Set<CategoryDTO> categoryDTO) {
+        log.debug("Request to save Category : {}", categoryDTO);
+        Set<Category> categories = categoryMapper.toEntity(categoryDTO);
+        Set<Category> savedCategory = new HashSet<>();
+        for (Category category: categories){
+            if(categoryRepository.findByName(category.getName()).isPresent()){
+                savedCategory.add(categoryRepository.findByName(category.getName()).get());
+            }else {
+                savedCategory.add(categoryRepository.save(category));
+            }
+        }
+        return categoryMapper.toDto(savedCategory);
     }
 
     @Override

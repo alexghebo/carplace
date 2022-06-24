@@ -2,20 +2,13 @@ package ca.verticalidigital.carplace.service;
 
 import ca.verticalidigital.carplace.config.Constants;
 import ca.verticalidigital.carplace.domain.Authority;
-import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.domain.User;
 import ca.verticalidigital.carplace.repository.AuthorityRepository;
-import ca.verticalidigital.carplace.repository.DealerRepository;
 import ca.verticalidigital.carplace.repository.UserRepository;
 import ca.verticalidigital.carplace.security.AuthoritiesConstants;
 import ca.verticalidigital.carplace.security.SecurityUtils;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
 import ca.verticalidigital.carplace.service.dto.UserDTO;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import ca.verticalidigital.carplace.service.mapper.DealerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -47,22 +45,18 @@ public class UserService {
 
     private final DealerService dealerService;
 
-    private final DealerRepository dealerRepository;
-
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        DealerService dealerService,
-        DealerRepository dealerRepository
+        DealerService dealerService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.dealerService = dealerService;
-        this.dealerRepository = dealerRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -186,7 +180,8 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        dealerRepository.save(userDTO.getDealer());
+
+        dealerService.createDealer(userDTO.getDealer());
         user.setDealer(userDTO.getDealer());
         userRepository.save(user);
         this.clearUserCaches(user);

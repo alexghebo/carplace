@@ -1,13 +1,12 @@
 package ca.verticalidigital.carplace.service;
 
-import ca.verticalidigital.carplace.domain.*; // for static metamodels
+import ca.verticalidigital.carplace.domain.CarModel_;
 import ca.verticalidigital.carplace.domain.VehicleListing;
+import ca.verticalidigital.carplace.domain.VehicleListing_;
 import ca.verticalidigital.carplace.repository.VehicleListingRepository;
 import ca.verticalidigital.carplace.service.criteria.VehicleListingCriteria;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import ca.verticalidigital.carplace.service.mapper.VehicleListingMapper;
-import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,6 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for {@link VehicleListing} entities in the database.

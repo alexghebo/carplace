@@ -423,6 +423,7 @@ public class VehicleListing implements Serializable {
 
     // prettier-ignore
 
+
     @Override
     public String toString() {
         return "VehicleListing{" +

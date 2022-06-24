@@ -128,7 +128,6 @@
             <column name="emission_class" type="string"/>
             <column name="emission" type="numeric"/>
             <column name="gearbox" type="string"/>
-
             <column name="reg_date" type="timestamp"/>
 
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
