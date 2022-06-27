@@ -53,20 +53,21 @@ export class RegisterComponent implements AfterViewInit {
     this.errorEmailExists = false;
     this.errorUserExists = false;
 
-    //Adding the values from the inputs
-    const name = this.registerForm.get(['name'])!.value;
-    const city = this.registerForm.get(['city'])!.value;
-    const address = this.registerForm.get(['address'])!.value;
-    const phone = this.registerForm.get(['phone'])!.value;
+    // Adding the values from the inputs
+    
     const password = this.registerForm.get(['password'])!.value;
     if (password !== this.registerForm.get(['confirmPassword'])!.value) {
       this.doNotMatch = true;
     } else {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
+      const name = this.registerForm.get(['name'])!.value;
+      const city = this.registerForm.get(['city'])!.value;
+      const address = this.registerForm.get(['address'])!.value;
+      const phone = this.registerForm.get(['phone'])!.value;
       this.registerService
         .save({
-          login, email, name, city, address, phone,  password, langKey: this.translateService.currentLang})
+          login, email, name, city, address, phone, password, langKey: this.translateService.currentLang})
         .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
     }
   }
