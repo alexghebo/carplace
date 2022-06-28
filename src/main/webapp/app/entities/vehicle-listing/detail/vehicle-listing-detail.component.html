@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="d-flex justify-content-center bg-white">
+  <div class="col-8 text-dark">
     <div *ngIf="vehicleListing">
       <h2 data-cy="vehicleListingDetailsHeading"><span jhiTranslate="carplaceApp.vehicleListing.detail.title">Vehicle Listing</span></h2>
 
@@ -9,14 +9,71 @@
 
       <jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
+      <ngb-carousel class="rounded container-fluid" *ngIf="images">
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img ngFor="let " [src]="images[0]" alt="Car image" class="col-12">
+          </div>
+          
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img [src]="images[1]" alt="Random second slide" class="col-12">
+          </div>
+          
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img [src]="images[2]"  alt="Random third slide" class="col-12">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
+      <div class="shadow p-3 mb-5 bg-white row mt-4">
+        <div class="col-md-8">
+          <p class="h4">{{ vehicleListing.carModel?.model }}</p>
+          <ul class="list-unstyled d-flex flex-wrap gap-2">
+            <li class="btn-sm bg-light rounded h6 ">Year: {{ vehicleListing.year }}</li>
+            <li class="btn-sm bg-light rounded h6">Mileage: {{ vehicleListing.mileage }}</li>
+            <li class="btn-sm bg-light rounded h6">{{ vehicleListing.fuel }}</li>
+            <li class="btn-sm bg-light rounded h6">Internal number: {{ vehicleListing.internalNumber }}</li>
+            <li class="btn-sm bg-light rounded h6">Cubic capacity: {{ vehicleListing.cubicCapacity }}</li>
+            <li class="btn-sm bg-light rounded h6">A/C: {{ vehicleListing.ac }}</li>
+          </ul>
+          <p>3</p>
+          <p>4</p>
+        </div>
+        <div class="col-md-4">
+          <p class="h2 text-warning">{{ vehicleListing.price | currency:'EUR'}} </p>
+          <p>6</p>
+          <p>7</p>
+          <p>8</p>
+        </div>
+      </div>
+
+      <!-- <p class="h1">{{ vehicleListing.price | currency:'EUR'}} </p>
+
+      <ul class="list-unstyled d-flex flex-wrap justify-content-between jh-entity-details">
+        <li class="btn-lg rounded border border-dark p-2">ID: {{ vehicleListing.id }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Year: {{ vehicleListing.year }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Mileage: {{ vehicleListing.mileage }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Fuel: {{ vehicleListing.fuel }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Internal number: {{ vehicleListing.internalNumber }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Category: {{ vehicleListing.categories?.name }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Make: {{ vehicleListing.carModel?.make }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Mot: {{ vehicleListing.mot | date  }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Registration date: {{ vehicleListing.regDate | date }}</li>
+        <li class="btn-lg rounded border border-dark p-2">Vehicle identification number: {{ vehicleListing.vin | date }}</li>
+      </ul> -->
+
+      <!-- <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="global.field.id">ID</span></dt>
         <dd>
           <span>{{ vehicleListing.id }}</span>
         </dd>
         <dt><span jhiTranslate="carplaceApp.vehicleListing.price">Price</span></dt>
         <dd>
-          <span>{{ vehicleListing.price }}</span>
+          <span>{{ vehicleListing.price | currency:'EUR'}}</span>
         </dd>
         <dt><span jhiTranslate="carplaceApp.vehicleListing.year">Year</span></dt>
         <dd>
@@ -27,7 +84,6 @@
           <span>{{ vehicleListing.mileage }}</span>
         </dd>
 
-        <!-- New fields -->
 
         <dt><span>Internal number</span></dt>
         <dd>
@@ -36,10 +92,7 @@
 
         <dt><span>Category</span></dt>
         <dd>
-          <span *ngFor="let category of vehicleListing.categories; let last = last">
-            <a [routerLink]="['/category', category?.id, 'view']">{{ category.name }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
+          <span>{{ vehicleListing.categories?.name }}</span>
         </dd>
 
         <dt><span>Make</span></dt>
@@ -49,12 +102,12 @@
 
         <dt><span>Mot</span></dt>
         <dd>
-          <span>{{ vehicleListing.mot }}</span>
+          <span>{{ vehicleListing.mot | date }}</span>
         </dd>
 
         <dt><span>Registration date</span></dt>
         <dd>
-          <span>{{ vehicleListing.regDate }}</span>
+          <span>{{ vehicleListing.regDate | date }}</span>
         </dd>
 
         <dt><span>Vehicle identification number</span></dt>
@@ -112,7 +165,6 @@
           <span>{{ vehicleListing.gearbox }}</span>
         </dd>
 
-        <!-- Ending new fields -->
 
         <dt><span jhiTranslate="carplaceApp.vehicleListing.fuel">Fuel</span></dt>
         <dd>
@@ -130,7 +182,9 @@
             <a [routerLink]="['/car-model', vehicleListing.carModel?.id, 'view']">{{ vehicleListing.carModel?.id }}</a>
           </div>
         </dd>
-      </dl>
+      </dl> -->
+
+
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>

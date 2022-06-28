@@ -15,7 +15,7 @@ export interface IVehicleListing {
   status?: ListingStatus | null;
   carModel?: ICarModel;
   internalNumber?: string;
-  categories?: ICategory[] | null;
+  categories?: ICategory;
   make?: ICarModel;
   performance?: number | null;
   mot?: Date | null;
@@ -43,7 +43,7 @@ export class VehicleListing implements IVehicleListing {
     public status?: ListingStatus | null,
     public carModel?: ICarModel,
     public internalNumber?: string,
-    public categories?: ICategory[] | null,
+    public categories?: ICategory,
     public make?: ICarModel,
     public mot?: Date | null,
     public regDate?: Date | null,
