@@ -265,16 +265,33 @@ public class VehicleListingDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "VehicleListingDTO{" +
-            "id=" + getId() +
-            ", price=" + getPrice() +
-            ", year=" + getYear() +
-            ", mileage=" + getMileage() +
-            ", fuel='" + getFuel() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", carModel=" + getCarModel() +
-            "}";
+            "id=" + id +
+            ", price=" + price +
+            ", year=" + year +
+            ", mileage=" + mileage +
+            ", fuel=" + fuel +
+            ", status=" + status +
+            ", internalNumber='" + internalNumber + '\'' +
+            ", performance=" + performance +
+            ", mot=" + mot +
+            ", regDate=" + regDate +
+            ", vat=" + vat +
+            ", vin='" + vin + '\'' +
+            ", colour='" + colour + '\'' +
+            ", ac=" + ac +
+            ", esp=" + esp +
+            ", abs=" + abs +
+            ", doors=" + doors +
+            ", cubicCapacity=" + cubicCapacity +
+            ", numberOfSeats=" + numberOfSeats +
+            ", emissionClass=" + emissionClass +
+            ", emission=" + emission +
+            ", gearbox=" + gearbox +
+            ", carModel=" + carModel +
+            '}';
     }
 }

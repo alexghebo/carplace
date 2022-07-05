@@ -10,6 +10,8 @@ import ca.verticalidigital.carplace.service.dto.CarModelDTO;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
 import ca.verticalidigital.carplace.service.mapper.VehicleListingMapper;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,18 @@ public class VehicleListingServiceImpl implements VehicleListingService {
         vehicleListing.setCarModel(carModelMapper.toEntity(carModelDTO));
         vehicleListing = vehicleListingRepository.save(vehicleListing);
         return vehicleListingMapper.toDto(vehicleListing);
+    }
+
+    @Override
+    public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
+        log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
+        List<VehicleListing> vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
+        //CarModelDTO carModelDTO = carModelService.save(vehicleListingDTO.getCarModel());
+        //vehicleListing.setCarModel(carModelMapper.toEntity(carModelDTO));
+        for(VehicleListing listing : vehicleListing){
+            vehicleListingRepository.save(listing);
+        }
+
     }
 
     @Override

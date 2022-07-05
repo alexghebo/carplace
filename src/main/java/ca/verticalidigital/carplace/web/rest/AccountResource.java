@@ -1,5 +1,6 @@
 package ca.verticalidigital.carplace.web.rest;
 
+import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.domain.User;
 import ca.verticalidigital.carplace.repository.UserRepository;
 import ca.verticalidigital.carplace.security.SecurityUtils;
@@ -7,6 +8,7 @@ import ca.verticalidigital.carplace.service.MailService;
 import ca.verticalidigital.carplace.service.UserService;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
 import ca.verticalidigital.carplace.service.dto.PasswordChangeDTO;
+import ca.verticalidigital.carplace.service.dto.RegisterDTO;
 import ca.verticalidigital.carplace.web.rest.errors.EmailAlreadyUsedException;
 import ca.verticalidigital.carplace.web.rest.errors.InvalidPasswordException;
 import ca.verticalidigital.carplace.web.rest.errors.LoginAlreadyUsedException;
@@ -53,18 +55,18 @@ public class AccountResource {
     /**
      * {@code POST  /register} : register the user.
      *
-     * @param managedUserVM the managed user View Model.
+     * @param registerDTO the helper user View Model.
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
+    public void registerAccount(@Valid @RequestBody RegisterDTO registerDTO) {
+        if (isPasswordLengthInvalid(registerDTO.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        User user = userService.registerUser(registerDTO);
         mailService.sendActivationEmail(user);
     }
 
@@ -125,7 +127,7 @@ public class AccountResource {
             throw new EmailAlreadyUsedException();
         }
         Optional<User> user = userRepository.findOneByLogin(userLogin);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new AccountResourceException("User could not be found");
         }
         userService.updateUser(
@@ -182,7 +184,7 @@ public class AccountResource {
         }
         Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new AccountResourceException("No user was found for this reset key");
         }
     }

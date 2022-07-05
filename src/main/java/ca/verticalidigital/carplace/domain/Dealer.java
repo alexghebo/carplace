@@ -45,6 +45,15 @@ public class Dealer implements Serializable {
         return this;
     }
 
+    public Dealer(){}
+
+    public Dealer(String name, String city, String address, String phone) {
+        this.name = name;
+        this.city = city;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
