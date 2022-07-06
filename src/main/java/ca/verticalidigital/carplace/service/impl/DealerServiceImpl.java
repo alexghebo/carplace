@@ -1,7 +1,8 @@
-package ca.verticalidigital.carplace.service;
+package ca.verticalidigital.carplace.service.impl;
 
 import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.repository.DealerRepository;
+import ca.verticalidigital.carplace.service.DealerMapper;
 import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.service.mapper.DealerService;
 import org.slf4j.Logger;

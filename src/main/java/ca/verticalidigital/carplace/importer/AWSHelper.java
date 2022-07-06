@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import liquibase.repackaged.com.opencsv.exceptions.CsvValidationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,12 +26,20 @@ import java.util.List;
 
 @Configuration
 @EnableScheduling
+
 public class AWSHelper {
     private VehicleListingService vehicleListingService;
-    private String BUCKET_NAME ="";
-    private String OBJECT_NAME = "";
-    private String ACCESS_KEY = "";
-    private String SECRET_KEY = "";
+
+    @Value("${aws.bucket}")
+    private String BUCKET_NAME;
+    @Value("${aws.object}")
+    private String OBJECT_NAME;
+
+    @Value("${aws.accesskey}")
+    private String ACCESS_KEY;
+
+    @Value("${aws.secretkey}")
+    private String SECRET_KEY;
 
     public AWSHelper(
         VehicleListingService vehicleListingService

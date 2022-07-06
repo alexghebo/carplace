@@ -1,7 +1,7 @@
 package ca.verticalidigital.carplace.web.rest;
 
 import ca.verticalidigital.carplace.repository.DealerRepository;
-import ca.verticalidigital.carplace.service.DealerServiceImpl;
+import ca.verticalidigital.carplace.service.impl.DealerServiceImpl;
 import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;

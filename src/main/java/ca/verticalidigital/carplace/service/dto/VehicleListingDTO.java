@@ -1,7 +1,11 @@
 package ca.verticalidigital.carplace.service.dto;
 
+import ca.verticalidigital.carplace.config.Constants;
 import ca.verticalidigital.carplace.domain.enumeration.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,6 +28,8 @@ public class VehicleListingDTO implements Serializable {
 
     private ListingStatus status;
 
+    @NotBlank
+    @Pattern(regexp= Constants.INTERNAL_REGEX)
     @Size(max = 40)
     private String internalNumber;
 

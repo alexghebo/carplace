@@ -1,5 +1,6 @@
 package ca.verticalidigital.carplace.domain;
 
+import ca.verticalidigital.carplace.config.Constants;
 import ca.verticalidigital.carplace.domain.enumeration.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
@@ -46,6 +48,7 @@ public class VehicleListing implements Serializable {
     private ListingStatus status;
 
     @NotNull
+    @Pattern(regexp= Constants.INTERNAL_REGEX)
     @Size(max = 40)
     @Column(name="internal_number", length = 40)
     private String internalNumber;

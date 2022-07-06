@@ -61,8 +61,6 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
         log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
         List<VehicleListing> vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
-        //CarModelDTO carModelDTO = carModelService.save(vehicleListingDTO.getCarModel());
-        //vehicleListing.setCarModel(carModelMapper.toEntity(carModelDTO));
         for(VehicleListing listing : vehicleListing){
             vehicleListingRepository.save(listing);
         }
