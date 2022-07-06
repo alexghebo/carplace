@@ -98,4 +98,14 @@ public class CategoryServiceImpl implements CategoryService {
         log.debug("Request to delete Category : {}", id);
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public Set<CategoryDTO> getExistingCategory(Set<CategoryDTO> categoryDTOS) {
+        Set<Category> categories = new HashSet<>();
+        for(CategoryDTO categoryDTO : categoryDTOS){
+            Optional<Category> category = categoryRepository.findByName(categoryDTO.getName());
+            category.ifPresent(categories::add);
+        }
+        return categoryMapper.toDto(categories);
+    }
 }

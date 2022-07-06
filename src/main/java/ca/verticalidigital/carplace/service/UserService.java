@@ -134,13 +134,18 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        Dealer dealer = new Dealer(
-            registerDTO.getName(),
-            registerDTO.getCity(),
-            registerDTO.getAddress(),
-            registerDTO.getPhone());
-        dealerService.createDealer(dealer);
-        newUser.setDealer(dealer);
+        Optional<Dealer> opDealer = dealerService.getOneByName(registerDTO.getName());
+        if(opDealer.isPresent()){
+            newUser.setDealer(opDealer.get());
+        }else{
+            Dealer dealer = new Dealer(
+                registerDTO.getName(),
+                registerDTO.getCity(),
+                registerDTO.getAddress(),
+                registerDTO.getPhone());
+            dealerService.createDealer(dealer);
+            newUser.setDealer(dealer);
+        }
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);

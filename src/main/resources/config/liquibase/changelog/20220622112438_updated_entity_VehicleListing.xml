@@ -29,9 +29,6 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
-
-
             <column name="internal_number" type="varchar(40)">
                 <constraints nullable="false" />
             </column>

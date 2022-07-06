@@ -58,4 +58,6 @@ public interface CategoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Set<CategoryDTO> getExistingCategory(Set<CategoryDTO> categoryDTOS);
 }

@@ -101,7 +101,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = { @JoinColumn(name = "dealer_id", referencedColumnName = "id") }
     )
-    @JsonIgnoreProperties(value = { "jhiUsers" }, allowSetters = true)
     private Dealer dealer;
 
     public Long getId() {

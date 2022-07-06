@@ -1,17 +1,30 @@
 package ca.verticalidigital.carplace.web.rest;
 
+import ca.verticalidigital.carplace.config.Constants;
 import ca.verticalidigital.carplace.repository.DealerRepository;
+import ca.verticalidigital.carplace.security.AuthoritiesConstants;
+import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
+import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import ca.verticalidigital.carplace.service.impl.DealerServiceImpl;
 import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import javax.validation.constraints.Pattern;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -151,6 +164,44 @@ public class DealerResource {
     public ResponseEntity<DealerDTO> getDealer(@PathVariable Long id){
         Optional<DealerDTO> dealerDTO = dealerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(dealerDTO);
+    }
+
+    /**
+     * {@code GET /dealer} : get all dealers with all the details - calling this are only allowed for the administrators.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
+     */
+
+    @GetMapping("/dealer")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<List<DealerDTO>> getAllDealers(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+        log.debug("REST request to get all Dealers");
+        if (!onlyContainsAllowedProperties(pageable)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        final Page<DealerDTO> page = dealerService.getAllManagedDealers(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * {@code DELETE /dealer/:id} : delete the "id" Dealer.
+     *
+     * @param id the id of the dealer to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/dealer/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        log.debug("REST request to delete dealer with id: {}", id);
+        dealerService.deleteDealer(id);
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "dealer.deleted", id.toString())).build();
+    }
+
+    private boolean onlyContainsAllowedProperties(Pageable pageable) {
+        return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
     }
 
 

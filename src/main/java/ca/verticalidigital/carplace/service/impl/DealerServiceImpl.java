@@ -85,4 +85,24 @@ public class DealerServiceImpl implements DealerService {
         log.debug("Request to delete Dealer : {}", id);
         dealerRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DealerDTO> getAllManagedDealers(Pageable pageable) {
+        return dealerRepository.findAll(pageable).map(DealerDTO::new);
+    }
+
+    @Override
+    public void deleteDealer(Long id) {
+        dealerRepository.findById(id)
+            .ifPresent(dealer -> {
+                dealerRepository.delete(dealer);
+                log.debug("Deleted Dealer: {}", dealer);
+            });
+    }
+
+    @Override
+    public Optional<Dealer> getOneByName(String name) {
+         return dealerRepository.findByName(name);
+    }
 }

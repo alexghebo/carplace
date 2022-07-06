@@ -21,4 +21,10 @@ public interface DealerService {
     Optional<DealerDTO> findOne(Long id);
 
     void delete(Long id);
+
+    Page<DealerDTO> getAllManagedDealers(Pageable pageable);
+
+    void deleteDealer(Long id);
+
+    Optional<Dealer> getOneByName(String name);
 }
