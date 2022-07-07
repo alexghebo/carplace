@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="d-flex justify-content-center bg-white">
+  <div class="col-8 text-dark">
     <div *ngIf="vehicleListing">
       <h2 data-cy="vehicleListingDetailsHeading"><span jhiTranslate="carplaceApp.vehicleListing.detail.title">Vehicle Listing</span></h2>
 
@@ -9,38 +9,47 @@
 
       <jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ vehicleListing.id }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.price">Price</span></dt>
-        <dd>
-          <span>{{ vehicleListing.price }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.year">Year</span></dt>
-        <dd>
-          <span>{{ vehicleListing.year }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.mileage">Mileage</span></dt>
-        <dd>
-          <span>{{ vehicleListing.mileage }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.fuel">Fuel</span></dt>
-        <dd>
-          <span jhiTranslate="{{ 'carplaceApp.FuelType.' + vehicleListing.fuel }}">{{ vehicleListing.fuel }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.status">Status</span></dt>
-        <dd>
-          <span jhiTranslate="{{ 'carplaceApp.ListingStatus.' + vehicleListing.status }}">{{ vehicleListing.status }}</span>
-        </dd>
-        <dt><span jhiTranslate="carplaceApp.vehicleListing.carModel">Car Model</span></dt>
-        <dd>
-          <div *ngIf="vehicleListing.carModel">
-            <a [routerLink]="['/car-model', vehicleListing.carModel?.id, 'view']">{{ vehicleListing.carModel?.id }}</a>
+      <ngb-carousel class="rounded container-fluid" *ngIf="images">
+        <ng-template *ngFor="let image of images" ngbSlide>
+          <div class="picsum-img-wrapper">
+            <img [src]="image" alt="Car image" class="col-12" />
           </div>
-        </dd>
-      </dl>
+        </ng-template>
+      </ngb-carousel>
+
+      <div class="shadow p-3 mb-5 bg-white row mt-4">
+        <div class="col-md-8">
+          <p class="h4">{{ vehicleListing.carModel?.model }}</p>
+          <ul class="list-unstyled d-flex flex-wrap gap-2">
+            <li *ngIf="vehicleListing.year" class="btn-sm border border-info rounded h6">Year: {{ vehicleListing.year }}</li>
+            <li class="btn-sm border border-info rounded h6">Mileage: {{ vehicleListing.mileage }}</li>
+            <li *ngIf="vehicleListing.fuel" class="btn-sm border border-info rounded h6">{{ vehicleListing.fuel }}</li>
+            <li *ngIf="vehicleListing.cubicCapacity" class="btn-sm border border-info rounded h6">
+              Cubic capacity: {{ vehicleListing.cubicCapacity }} &#13220;
+            </li>
+            <li *ngIf="vehicleListing.ac" class="btn-sm border border-info rounded h6">A/C: {{ vehicleListing.ac }}</li>
+            <li *ngIf="vehicleListing.make" class="btn-sm border border-info rounded h6">Make: {{ vehicleListing.carModel?.make }}</li>
+            <li *ngIf="vehicleListing.vin" class="btn-sm border border-info rounded h6">V.I.N: {{ vehicleListing.vin }}</li>
+            <li *ngIf="vehicleListing.esp" class="btn-sm border border-info rounded h6">ESP: {{ vehicleListing.esp }}</li>
+            <li *ngIf="vehicleListing.abs" class="btn-sm border border-info rounded h6">ABS: {{ vehicleListing.abs }}</li>
+            <li *ngIf="vehicleListing.emission" class="btn-sm border border-info rounded h6">Emission: {{ vehicleListing.emission }}</li>
+          </ul>
+          <p *ngIf="vehicleListing.mot" class="h6 text-justify">Technical Inspection: {{ vehicleListing.mot | date }}</p>
+          <p *ngIf="vehicleListing.regDate" class="h6 text-justify mt-1">Registration Date: {{ vehicleListing.regDate | date }}</p>
+          <p *ngIf="vehicleListing.colour" class="h6 text-justify mt-1">Colour: {{ vehicleListing.colour }}</p>
+          <p *ngIf="vehicleListing.doors" class="h6 text-justify mt-1">Number of Doors: {{ vehicleListing.doors }}</p>
+          <p *ngIf="vehicleListing.numberOfSeats" class="h6 text-justify mt-1">Number of Seats: {{ vehicleListing.numberOfSeats }}</p>
+        </div>
+        <div class="col-md-4">
+          <p *ngIf="vehicleListing.price" class="h2 text-warning mt-2 text-justify">{{ vehicleListing.price | currency: 'EUR' }}</p>
+          <p class="h5 text-justify mt-2">Internal Number: {{ vehicleListing.internalNumber }}</p>
+          <p class="h5 text-justify mt-2">Category: {{ vehicleListing.categories?.name }}</p>
+          <p *ngIf="vehicleListing.gearbox" class="h5 text-justify mt-2">Type of Gearbox: {{ vehicleListing.gearbox }}</p>
+          <p *ngIf="vehicleListing.emissionClass" class="h5 text-justify mt-2">Emission Class: {{ vehicleListing.emissionClass }}</p>
+          <p *ngIf="vehicleListing.status" class="h5 text-justify mt-2">Status: {{ vehicleListing.status }}</p>
+          <p *ngIf="vehicleListing.performance" class="h5 text-justify mt-2">Performance: {{ vehicleListing.performance }}</p>
+        </div>
+      </div>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>

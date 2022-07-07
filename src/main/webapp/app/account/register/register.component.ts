@@ -36,7 +36,7 @@ export class RegisterComponent implements AfterViewInit {
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     city: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     address: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    phone: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]]
+    phone: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
   });
 
   constructor(private translateService: TranslateService, private registerService: RegisterService, private fb: FormBuilder) {}
@@ -53,7 +53,6 @@ export class RegisterComponent implements AfterViewInit {
     this.errorEmailExists = false;
     this.errorUserExists = false;
 
-    //Adding the values from the inputs
     const name = this.registerForm.get(['name'])!.value;
     const city = this.registerForm.get(['city'])!.value;
     const address = this.registerForm.get(['address'])!.value;
@@ -66,7 +65,15 @@ export class RegisterComponent implements AfterViewInit {
       const email = this.registerForm.get(['email'])!.value;
       this.registerService
         .save({
-          login, email, name, city, address, phone,  password, langKey: this.translateService.currentLang})
+          login,
+          email,
+          name,
+          city,
+          address,
+          phone,
+          password,
+          langKey: this.translateService.currentLang,
+        })
         .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
     }
   }
