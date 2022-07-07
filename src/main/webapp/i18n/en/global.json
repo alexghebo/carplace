@@ -38,8 +38,8 @@
     "form": {
       "username.label": "Username",
       "username.placeholder": "Your username",
-      "dealer.label": "Dealer",
-      "dealer.placeholder": "Dealer name",
+      "name.label": "Dealer",
+      "name.placeholder": "Dealer name",
       "city.label": "City",
       "city.placeholder": "Your city",
       "address.label": "Address",

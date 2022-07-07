@@ -1,7 +1,8 @@
-package ca.verticalidigital.carplace.service;
+package ca.verticalidigital.carplace.service.impl;
 
 import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.repository.DealerRepository;
+import ca.verticalidigital.carplace.service.DealerMapper;
 import ca.verticalidigital.carplace.service.dto.DealerDTO;
 import ca.verticalidigital.carplace.service.mapper.DealerService;
 import org.slf4j.Logger;
@@ -29,6 +30,11 @@ public class DealerServiceImpl implements DealerService {
     ){
         this.dealerRepository = dealerRepository;
         this.dealerMapper = dealerMapper;
+    }
+
+    @Override
+    public void createDealer(Dealer dealer) {
+        dealerRepository.save(dealer);
     }
 
     @Override
@@ -78,5 +84,25 @@ public class DealerServiceImpl implements DealerService {
     public void delete(Long id) {
         log.debug("Request to delete Dealer : {}", id);
         dealerRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DealerDTO> getAllManagedDealers(Pageable pageable) {
+        return dealerRepository.findAll(pageable).map(DealerDTO::new);
+    }
+
+    @Override
+    public void deleteDealer(Long id) {
+        dealerRepository.findById(id)
+            .ifPresent(dealer -> {
+                dealerRepository.delete(dealer);
+                log.debug("Deleted Dealer: {}", dealer);
+            });
+    }
+
+    @Override
+    public Optional<Dealer> getOneByName(String name) {
+         return dealerRepository.findByName(name);
     }
 }

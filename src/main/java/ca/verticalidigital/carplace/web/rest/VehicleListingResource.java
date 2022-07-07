@@ -6,11 +6,6 @@ import ca.verticalidigital.carplace.service.VehicleListingService;
 import ca.verticalidigital.carplace.service.criteria.VehicleListingCriteria;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import ca.verticalidigital.carplace.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +18,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link ca.verticalidigital.carplace.domain.VehicleListing}.

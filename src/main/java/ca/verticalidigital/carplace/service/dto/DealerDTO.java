@@ -1,12 +1,9 @@
 package ca.verticalidigital.carplace.service.dto;
 
 import ca.verticalidigital.carplace.domain.Dealer;
-import ca.verticalidigital.carplace.domain.User;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class DealerDTO implements Serializable {
 

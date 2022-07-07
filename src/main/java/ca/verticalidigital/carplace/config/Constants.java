@@ -11,5 +11,9 @@ public final class Constants {
     public static final String SYSTEM = "system";
     public static final String DEFAULT_LANGUAGE = "en";
 
+    // Regex for acceptable vehicleListing
+
+    public static final String INTERNAL_REGEX = "^([a-zA-Z0-9]+)$";
+
     private Constants() {}
 }

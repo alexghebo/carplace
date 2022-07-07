@@ -4,12 +4,13 @@ import ca.verticalidigital.carplace.domain.Authority;
 import ca.verticalidigital.carplace.domain.User;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
 import ca.verticalidigital.carplace.service.dto.UserDTO;
-import java.util.*;
-import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Mapper for the entity {@link User} and its DTO called {@link UserDTO}.

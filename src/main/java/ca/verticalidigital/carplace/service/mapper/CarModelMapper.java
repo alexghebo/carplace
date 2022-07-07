@@ -4,9 +4,13 @@ import ca.verticalidigital.carplace.domain.CarModel;
 import ca.verticalidigital.carplace.domain.Category;
 import ca.verticalidigital.carplace.service.dto.CarModelDTO;
 import ca.verticalidigital.carplace.service.dto.CategoryDTO;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link CarModel} and its DTO {@link CarModelDTO}.

@@ -1,9 +1,11 @@
 package ca.verticalidigital.carplace.service;
 
+import ca.verticalidigital.carplace.domain.CarModel;
 import ca.verticalidigital.carplace.service.dto.CarModelDTO;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link ca.verticalidigital.carplace.domain.CarModel}.
@@ -63,4 +65,6 @@ public interface CarModelService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    CarModel getExistingModel(CarModelDTO carModelDTO);
 }

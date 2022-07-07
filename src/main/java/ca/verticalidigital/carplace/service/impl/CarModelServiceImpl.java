@@ -3,15 +3,20 @@ package ca.verticalidigital.carplace.service.impl;
 import ca.verticalidigital.carplace.domain.CarModel;
 import ca.verticalidigital.carplace.repository.CarModelRepository;
 import ca.verticalidigital.carplace.service.CarModelService;
+import ca.verticalidigital.carplace.service.CategoryService;
 import ca.verticalidigital.carplace.service.dto.CarModelDTO;
+import ca.verticalidigital.carplace.service.dto.CategoryDTO;
 import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
-import java.util.Optional;
+import ca.verticalidigital.carplace.service.mapper.CategoryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Implementation for managing {@link CarModel}.
@@ -26,15 +31,31 @@ public class CarModelServiceImpl implements CarModelService {
 
     private final CarModelMapper carModelMapper;
 
-    public CarModelServiceImpl(CarModelRepository carModelRepository, CarModelMapper carModelMapper) {
+    private final CategoryService categoryService;
+
+    private final CategoryMapper categoryMapper;
+
+    public CarModelServiceImpl(
+        CarModelRepository carModelRepository,
+        CarModelMapper carModelMapper,
+        CategoryService categoryService,
+        CategoryMapper categoryMapper){
         this.carModelRepository = carModelRepository;
         this.carModelMapper = carModelMapper;
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
     }
 
     @Override
     public CarModelDTO save(CarModelDTO carModelDTO) {
         log.debug("Request to save CarModel : {}", carModelDTO);
         CarModel carModel = carModelMapper.toEntity(carModelDTO);
+        Set<CategoryDTO> categoryDTOS = categoryService.save(carModelDTO.getCategories());
+        carModel.setCategories(categoryMapper.toEntity(categoryDTOS));
+        Optional<CarModel> unique = carModelRepository.findByMakeAndModelAndLaunchYear(carModel.getMake(), carModel.getModel(), carModel.getLaunchYear());
+        if(unique.isPresent()){
+            carModel.setId(unique.get().getId());
+        }
         carModel = carModelRepository.save(carModel);
         return carModelMapper.toDto(carModel);
     }
@@ -85,4 +106,18 @@ public class CarModelServiceImpl implements CarModelService {
         log.debug("Request to delete CarModel : {}", id);
         carModelRepository.deleteById(id);
     }
+
+    @Override
+    public CarModel getExistingModel(CarModelDTO carModelDTO) {
+        Optional<CarModel> carModel = carModelRepository.findByMakeAndModelAndLaunchYear(carModelDTO.getMake(), carModelDTO.getModel(), carModelDTO.getLaunchYear());
+        if(carModel.isPresent()){
+            Set<CategoryDTO> categoryDTOS = categoryService.getExistingCategory(carModelDTO.getCategories());
+            CarModel model = carModel.get();
+            model.setCategories(categoryMapper.toEntity(categoryDTOS));
+            return model;
+        }else {
+            return null;
+        }
+    }
+
 }

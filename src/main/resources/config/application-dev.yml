@@ -137,3 +137,8 @@ jhipster:
 # ===================================================================
 
 # application:
+aws:
+    bucket: "read-from-s3-demo-vertical"
+    object: "01_vehicle_listing.csv"
+    accesskey: "AKIAWANZET5DAHK4O3PM"
+    secretkey: "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"
