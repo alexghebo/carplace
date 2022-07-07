@@ -3,8 +3,10 @@ package ca.verticalidigital.carplace.domain;
 import ca.verticalidigital.carplace.domain.enumeration.FuelType;
 import ca.verticalidigital.carplace.domain.enumeration.ListingStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import javax.persistence.*;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -42,7 +44,7 @@ public class VehicleListing implements Serializable {
     private ListingStatus status;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "vehicleListings", "categories" }, allowSetters = true)
+    @JsonIgnoreProperties(value = {"vehicleListings", "categories"}, allowSetters = true)
     private CarModel carModel;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

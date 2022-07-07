@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet id="1_create_dealer_table" author="alex" >
+        <createTable tableName="dealer">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dealer_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="city" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="contact_phone" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2_create_user_dealer_relation_table" author="alex">
+
+        <createTable tableName="user_dealer">
+            <column name="user_id" type="bigint"></column>
+            <column name="dealer_id" type="bigint"></column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, dealer_id" tableName="user_dealer"/>
+
+    </changeSet>
+
+    <changeSet id="3_add_constraints_user_dealer" author="alex">
+
+        <addForeignKeyConstraint baseColumnNames="dealer_id"
+                                 baseTableName="user_dealer"
+                                 constraintName="fk_dealer_id_user_dealer"
+                                 referencedColumnNames="id"
+                                 referencedTableName="dealer"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_dealer"
+                                 constraintName="fk_user_dealer_dealer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+    </changeSet>
+
+</databaseChangeLog>

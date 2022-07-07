@@ -1,32 +1,34 @@
 package ca.verticalidigital.carplace.service.dto;
-
 import ca.verticalidigital.carplace.domain.Dealer;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class DealerDTO extends UserDTO{
-    @NotNull
+public class DealerDTO implements Serializable {
+
+    private Long id;
     private String dealerName;
-
-    @NotNull
     private String city;
-
-    @NotNull
     private String address;
+    private String contactPhone;
 
-    @NotNull
-    @Size(min = 10, max = 10)
-    private Integer contactPhone;
-
-    public DealerDTO(){
+    public DealerDTO() {
     }
 
     public DealerDTO(Dealer dealer) {
+        this.id = dealer.getId();
         this.dealerName = dealer.getDealerName();
         this.city = dealer.getCity();
         this.address = dealer.getAddress();
         this.contactPhone = dealer.getContactPhone();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDealerName() {
@@ -53,23 +55,31 @@ public class DealerDTO extends UserDTO{
         this.address = address;
     }
 
-    public Integer getContactPhone() {
+    public String getContactPhone() {
         return contactPhone;
     }
 
-    public void setContactPhone(Integer contactPhone) {
+    public void setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
     }
 
-    // prettier-ignore
     @Override
-    public String toString() {
-        return "Dealer{" +
-            "dealerName='" + dealerName + '\'' +
-            ", city='" + city + '\'' +
-            ", address='" + address + '\'' +
-            ", contactPhone='" + contactPhone + '\'' +
-            "}";
+    public boolean equals(Object o) {
+        if(this == o){
+            return true;
+        }
+        if(!(o instanceof DealerDTO)){
+            return false;
+        }
+        DealerDTO dealerDTO = (DealerDTO) o;
+        if(this.id == null){
+            return false;
+        }
+        return Objects.equals(this.id, dealerDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
-

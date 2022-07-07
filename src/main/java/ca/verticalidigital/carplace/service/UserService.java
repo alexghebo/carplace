@@ -2,17 +2,23 @@ package ca.verticalidigital.carplace.service;
 
 import ca.verticalidigital.carplace.config.Constants;
 import ca.verticalidigital.carplace.domain.Authority;
+import ca.verticalidigital.carplace.domain.Dealer;
 import ca.verticalidigital.carplace.domain.User;
 import ca.verticalidigital.carplace.repository.AuthorityRepository;
+import ca.verticalidigital.carplace.repository.DealerRepository;
 import ca.verticalidigital.carplace.repository.UserRepository;
 import ca.verticalidigital.carplace.security.AuthoritiesConstants;
 import ca.verticalidigital.carplace.security.SecurityUtils;
 import ca.verticalidigital.carplace.service.dto.AdminUserDTO;
+import ca.verticalidigital.carplace.service.dto.RegisterDTO;
 import ca.verticalidigital.carplace.service.dto.UserDTO;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import ca.verticalidigital.carplace.service.mapper.DealerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -41,16 +47,28 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
+    private final DealerRepository dealerRepository;
+
+    private final DealerService dealerService;
+
+    private final DealerMapper dealerMapper;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        DealerRepository dealerRepository,
+        DealerService dealerService,
+        DealerMapper dealerMapper
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.dealerRepository = dealerRepository;
+        this.dealerService = dealerService;
+        this.dealerMapper = dealerMapper;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -93,9 +111,9 @@ public class UserService {
             });
     }
 
-    public User registerUser(AdminUserDTO userDTO, String password) {
+    public User registerUser(RegisterDTO registerDTO) {
         userRepository
-            .findOneByLogin(userDTO.getLogin().toLowerCase())
+            .findOneByLogin(registerDTO.getLogin().toLowerCase())
             .ifPresent(existingUser -> {
                 boolean removed = removeNonActivatedUser(existingUser);
                 if (!removed) {
@@ -103,7 +121,7 @@ public class UserService {
                 }
             });
         userRepository
-            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .findOneByEmailIgnoreCase(registerDTO.getEmail())
             .ifPresent(existingUser -> {
                 boolean removed = removeNonActivatedUser(existingUser);
                 if (!removed) {
@@ -111,17 +129,14 @@ public class UserService {
                 }
             });
         User newUser = new User();
-        String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        String encryptedPassword = passwordEncoder.encode(registerDTO.getPassword());
+        newUser.setLogin(registerDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
-        newUser.setFirstName(userDTO.getFirstName());
-        newUser.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            newUser.setEmail(userDTO.getEmail().toLowerCase());
+        if (registerDTO.getEmail() != null) {
+            newUser.setEmail(registerDTO.getEmail().toLowerCase());
         }
-        newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
+        newUser.setLangKey(registerDTO.getLangKey());
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
@@ -129,6 +144,18 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+        Optional<Dealer> opDealer = dealerService.getOneByName(registerDTO.getDealerName());
+        if(opDealer.isPresent()){
+            newUser.setDealer(opDealer.get());
+        }else{
+            Dealer dealer = new Dealer(
+                registerDTO.getDealerName(),
+                registerDTO.getCity(),
+                registerDTO.getAddress(),
+                registerDTO.getContactPhone());
+            dealerService.createDealer(dealer);
+            newUser.setDealer(dealer);
+        }
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
@@ -309,6 +336,7 @@ public class UserService {
 
     /**
      * Gets a list of all the authorities.
+     *
      * @return a list of all the authorities.
      */
     @Transactional(readOnly = true)
