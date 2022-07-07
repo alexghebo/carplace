@@ -79,9 +79,7 @@ public class AccountResource {
     @GetMapping("/activate")
     public void activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
-        if (!user.isPresent()) {
-            throw new AccountResourceException("No user was found for this activation key");
-        }
+        user.orElseThrow(()-> new AccountResourceException("No user was found for this activation key"));
     }
 
     /**
@@ -183,10 +181,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
-
-        if (user.isEmpty()) {
-            throw new AccountResourceException("No user was found for this reset key");
-        }
+        user.orElseThrow(()-> new AccountResourceException("No user was found for this reset key"));
     }
 
     private static boolean isPasswordLengthInvalid(String password) {
