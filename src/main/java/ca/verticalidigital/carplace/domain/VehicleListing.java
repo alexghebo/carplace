@@ -1,11 +1,13 @@
 package ca.verticalidigital.carplace.domain;
 
-import ca.verticalidigital.carplace.domain.enumeration.FuelType;
-import ca.verticalidigital.carplace.domain.enumeration.ListingStatus;
+import ca.verticalidigital.carplace.domain.enumeration.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -42,6 +44,61 @@ public class VehicleListing implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ListingStatus status;
+
+    @NotNull
+    @Size(max = 40)
+    @Column(name="internal_number", length = 40)
+    private String internalNumber;
+
+    @Column(name = "performance")
+    private Integer performance;
+
+    @Column(name = "mot")
+    private Instant mot;
+
+    @Column(name = "reg_date")
+    private Instant regDate;
+
+    @NotNull
+    @Column(name = "vat")
+    private Boolean vat;
+
+    @Column(name = "vin")
+    private String vin;
+
+    @Size(max = 32)
+    @Column(name = "colour", length = 32)
+    private String colour;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ac")
+    private Ac ac;
+
+    @Column(name = "esp")
+    private Boolean esp;
+
+    @Column(name = "abs")
+    private Boolean abs;
+
+    @Column(name = "doors")
+    private Integer doors;
+
+    @Column(name = "cubic_capacity")
+    private Integer cubicCapacity;
+
+    @Column(name = "number_of_seats")
+    private Integer numberOfSeats;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "emission_class")
+    private EmissionClass emissionClass;
+
+    @Column(name = "emission")
+    private Integer emission;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gearbox")
+    private Gearbox gearbox;
 
     @ManyToOne
     @JsonIgnoreProperties(value = {"vehicleListings", "categories"}, allowSetters = true)

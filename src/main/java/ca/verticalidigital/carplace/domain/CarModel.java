@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,9 +26,11 @@ public class CarModel implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "make")
     private String make;
 
+    @NotNull
     @Column(name = "model")
     private String model;
 
@@ -37,6 +41,7 @@ public class CarModel implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "carModel" }, allowSetters = true)
     private Set<VehicleListing> vehicleListings = new HashSet<>();
+
 
     @ManyToMany
     @JoinTable(
