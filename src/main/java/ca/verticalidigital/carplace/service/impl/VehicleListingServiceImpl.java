@@ -7,6 +7,7 @@ import ca.verticalidigital.carplace.service.CarModelService;
 import ca.verticalidigital.carplace.service.VehicleListingService;
 import ca.verticalidigital.carplace.service.dto.CarModelDTO;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
+import ca.verticalidigital.carplace.service.exceptions.InternalNumberUsedException;
 import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
 import ca.verticalidigital.carplace.service.mapper.VehicleListingMapper;
 import org.slf4j.Logger;
@@ -16,8 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link VehicleListing}.
@@ -49,6 +53,11 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     @Override
     public VehicleListingDTO save(VehicleListingDTO vehicleListingDTO) {
         log.debug("Request to save VehicleListing : {}", vehicleListingDTO);
+        vehicleListingRepository
+            .findOneByInternalNumber(vehicleListingDTO.getInternalNumber())
+            .ifPresent(existingVehicle ->{
+                throw  new InternalNumberUsedException();
+            });
         VehicleListing vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
         vehicleListing.setCarModel(getExistingModel(vehicleListingDTO.getCarModel()));
         vehicleListing = vehicleListingRepository.save(vehicleListing);
@@ -58,8 +67,17 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     @Override
     public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
         log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
-        List<VehicleListing> vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
-        vehicleListingRepository.saveAll(vehicleListing);
+        List<VehicleListingDTO> existingVehicle = vehicleListingMapper.toDto(
+            vehicleListingRepository.findByInternalNumberIn(vehicleListingDTO.stream().map(
+                VehicleListingDTO::getInternalNumber
+            ).collect(Collectors.toList()))
+        );
+        vehicleListingDTO.removeIf(
+            d1 -> existingVehicle
+                .stream()
+                .anyMatch(d2 -> d1.getInternalNumber().equals(d2.getInternalNumber()))
+        );
+        vehicleListingRepository.saveAll(vehicleListingMapper.toEntity(vehicleListingDTO));
     }
 
     @Override
@@ -106,6 +124,14 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     }
 
     public CarModel getExistingModel(CarModelDTO carModelDTO){
-        return carModelService.getExistingModel(carModelDTO);
+        if(carModelDTO==null){
+            return null;
+        }else{
+            return carModelService.getExistingModel(carModelDTO);
+        }
+    }
+    private Instant getInstant(){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return timestamp.toInstant();
     }
 }

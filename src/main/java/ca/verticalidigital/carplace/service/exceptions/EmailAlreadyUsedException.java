@@ -1,4 +1,4 @@
-package ca.verticalidigital.carplace.service;
+package ca.verticalidigital.carplace.service.exceptions;
 
 public class EmailAlreadyUsedException extends RuntimeException {
 
