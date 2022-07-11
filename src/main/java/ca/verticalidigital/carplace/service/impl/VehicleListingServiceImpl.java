@@ -67,11 +67,19 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     @Override
     public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
         log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
-        List<VehicleListingDTO> existingVehicle = vehicleListingMapper.toDto(
+
+        List<VehicleListing> existingVehicle =
             vehicleListingRepository.findByInternalNumberIn(vehicleListingDTO.stream().map(
                 VehicleListingDTO::getInternalNumber
-            ).collect(Collectors.toList()))
+            ).collect(Collectors.toList())
         );
+        // update for csv
+        existingVehicle.forEach(e-> vehicleListingDTO.forEach(d->{
+            if(e.getInternalNumber().equals(d.getInternalNumber())){
+                vehicleListingMapper.partialUpdate(e,d);
+            }
+        }));
+
         vehicleListingDTO.removeIf(
             d1 -> existingVehicle
                 .stream()

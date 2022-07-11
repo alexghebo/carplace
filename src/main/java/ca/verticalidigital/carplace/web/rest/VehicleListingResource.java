@@ -19,8 +19,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -65,7 +64,7 @@ public class VehicleListingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/vehicle-listings")
-    public ResponseEntity<VehicleListingDTO> createVehicleListing(@RequestBody VehicleListingDTO vehicleListingDTO)
+    public ResponseEntity<VehicleListingDTO> createVehicleListing(@Valid @RequestBody VehicleListingDTO vehicleListingDTO)
         throws URISyntaxException {
         log.debug("REST request to save VehicleListing : {}", vehicleListingDTO);
         if (vehicleListingDTO.getId() != null) {
@@ -91,7 +90,7 @@ public class VehicleListingResource {
     @PutMapping("/vehicle-listings/{id}")
     public ResponseEntity<VehicleListingDTO> updateVehicleListing(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody VehicleListingDTO vehicleListingDTO
+        @Valid @RequestBody VehicleListingDTO vehicleListingDTO
     ) throws URISyntaxException {
         log.debug("REST request to update VehicleListing : {}, {}", id, vehicleListingDTO);
         if (vehicleListingDTO.getId() == null) {
@@ -126,7 +125,7 @@ public class VehicleListingResource {
     @PatchMapping(value = "/vehicle-listings/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<VehicleListingDTO> partialUpdateVehicleListing(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody VehicleListingDTO vehicleListingDTO
+        @Valid @RequestBody VehicleListingDTO vehicleListingDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update VehicleListing partially : {}, {}", id, vehicleListingDTO);
         if (vehicleListingDTO.getId() == null) {
