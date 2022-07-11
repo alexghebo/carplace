@@ -2,9 +2,13 @@ package ca.verticalidigital.carplace.service.impl;
 
 import ca.verticalidigital.carplace.domain.VehicleListing;
 import ca.verticalidigital.carplace.repository.VehicleListingRepository;
+import ca.verticalidigital.carplace.service.CarModelService;
 import ca.verticalidigital.carplace.service.VehicleListingService;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
+import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
 import ca.verticalidigital.carplace.service.mapper.VehicleListingMapper;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +29,25 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     private final VehicleListingRepository vehicleListingRepository;
 
     private final VehicleListingMapper vehicleListingMapper;
+    private final CarModelMapper carModelMapper;
+    private final CarModelService carModelService;
 
-    public VehicleListingServiceImpl(VehicleListingRepository vehicleListingRepository, VehicleListingMapper vehicleListingMapper) {
+    public VehicleListingServiceImpl(VehicleListingRepository vehicleListingRepository,
+                                     VehicleListingMapper vehicleListingMapper,
+                                     CarModelMapper carModelMapper,
+                                     CarModelService carModelService)
+    {
         this.vehicleListingRepository = vehicleListingRepository;
         this.vehicleListingMapper = vehicleListingMapper;
+        this.carModelMapper = carModelMapper;
+        this.carModelService = carModelService;
     }
 
     @Override
     public VehicleListingDTO save(VehicleListingDTO vehicleListingDTO) {
         log.debug("Request to save VehicleListing : {}", vehicleListingDTO);
         VehicleListing vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
+        vehicleListing.setCarModel(null);
         vehicleListing = vehicleListingRepository.save(vehicleListing);
         return vehicleListingMapper.toDto(vehicleListing);
     }
@@ -80,5 +93,13 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     public void delete(Long id) {
         log.debug("Request to delete VehicleListing : {}", id);
         vehicleListingRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
+        log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
+        List<VehicleListing> vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
+
+        vehicleListingRepository.saveAll(vehicleListing);
     }
 }

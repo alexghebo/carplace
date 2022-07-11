@@ -31,15 +31,7 @@ import java.util.*;
 @RequestMapping("/api/admin")
 public class DealerResource {
 
-    private static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
-        Arrays.asList(
-            "id",
-            "name",
-            "city",
-            "address",
-            "phone"
-        )
-    );
+    private static final List<String> ALLOWED_ORDERED_PROPERTIES = List.of("id", "name", "city", "address", "phone");
 
     private final Logger log = LoggerFactory.getLogger(DealerResource.class);
 

@@ -29,6 +29,56 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="internal_number" type="varchar(40)">
+                <constraints nullable="false" />
+            </column>
+            <column name="performance" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="mot" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="reg_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="vat" type="boolean" valueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="vin" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="colour" type="varchar(32)">
+                <constraints nullable="true" />
+            </column>
+            <column name="ac" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="esp" type="boolean" valueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="abs" type="boolean" valueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="doors" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="cubic_capacity" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="number_of_seats" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="emission_class" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="emission" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="gearbox" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+
             <column name="car_model_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -48,7 +98,7 @@
     -->
     <changeSet id="20220614112438-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/vehicle_listing.csv"
+                  file="config/liquibase/fake-data/01_vehicle_listing.csv"
                   separator=";"
                   tableName="vehicle_listing"
                   usePreparedStatements="true">
@@ -58,6 +108,22 @@
             <column name="mileage" type="numeric"/>
             <column name="fuel" type="string"/>
             <column name="status" type="string"/>
+            <column name="internal_number" type="string"/>
+            <column name="performance" type="numeric"/>
+            <column name="vat" type="boolean"/>
+            <column name="vin" type="string"/>
+            <column name="colour" type="string"/>
+            <column name="ac" type="string"/>
+            <column name="esp" type="boolean"/>
+            <column name="abs" type="boolean"/>
+            <column name="doors" type="numeric"/>
+            <column name="cubic_capacity" type="numeric"/>
+            <column name="number_of_seats" type="numeric"/>
+            <column name="emission_class" type="string"/>
+            <column name="emission" type="numeric"/>
+            <column name="gearbox" type="string"/>
+            <column name="reg_date" type="timestamp"/>
+
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

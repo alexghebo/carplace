@@ -1,6 +1,8 @@
 package ca.verticalidigital.carplace.service;
 
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,4 +57,6 @@ public interface VehicleListingService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void saveAll(List<VehicleListingDTO> vehicleListingDTO);
 }

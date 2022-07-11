@@ -197,6 +197,133 @@ public class VehicleListing implements Serializable {
         return this;
     }
 
+    public String getInternalNumber() {
+        return internalNumber;
+    }
+
+    public void setInternalNumber(String internalNumber) {
+        this.internalNumber = internalNumber;
+    }
+
+    public Integer getPerformance() {
+        return performance;
+    }
+
+    public void setPerformance(Integer performance) {
+        this.performance = performance;
+    }
+
+    public Instant getMot() {
+        return mot;
+    }
+
+    public void setMot(Instant mot) {
+        this.mot = mot;
+    }
+
+    public Instant getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Instant regDate) {
+        this.regDate = regDate;
+    }
+
+    public Boolean getVat() {
+        return vat;
+    }
+
+    public void setVat(Boolean vat) {
+        this.vat = vat;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+
+    public Ac getAc() {
+        return ac;
+    }
+
+    public void setAc(Ac ac) {
+        this.ac = ac;
+    }
+
+    public Boolean getEsp() {
+        return esp;
+    }
+
+    public void setEsp(Boolean esp) {
+        this.esp = esp;
+    }
+
+    public Boolean getAbs() {
+        return abs;
+    }
+
+    public void setAbs(Boolean abs) {
+        this.abs = abs;
+    }
+
+    public Integer getDoors() {
+        return doors;
+    }
+
+    public void setDoors(Integer doors) {
+        this.doors = doors;
+    }
+
+    public Integer getCubicCapacity() {
+        return cubicCapacity;
+    }
+
+    public void setCubicCapacity(Integer cubicCapacity) {
+        this.cubicCapacity = cubicCapacity;
+    }
+
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    public EmissionClass getEmissionClass() {
+        return emissionClass;
+    }
+
+    public void setEmissionClass(EmissionClass emissionClass) {
+        this.emissionClass = emissionClass;
+    }
+
+    public Integer getEmission() {
+        return emission;
+    }
+
+    public void setEmission(Integer emission) {
+        this.emission = emission;
+    }
+
+    public Gearbox getGearbox() {
+        return gearbox;
+    }
+
+    public void setGearbox(Gearbox gearbox) {
+        this.gearbox = gearbox;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -217,15 +344,33 @@ public class VehicleListing implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "VehicleListing{" +
-            "id=" + getId() +
-            ", price=" + getPrice() +
-            ", year=" + getYear() +
-            ", mileage=" + getMileage() +
-            ", fuel='" + getFuel() + "'" +
-            ", status='" + getStatus() + "'" +
-            "}";
+            "id=" + id +
+            ", price=" + price +
+            ", year=" + year +
+            ", mileage=" + mileage +
+            ", fuel=" + fuel +
+            ", status=" + status +
+            ", internalNumber='" + internalNumber + '\'' +
+            ", performance=" + performance +
+            ", mot=" + mot +
+            ", regDate=" + regDate +
+            ", vat=" + vat +
+            ", vin='" + vin + '\'' +
+            ", colour='" + colour + '\'' +
+            ", ac=" + ac +
+            ", esp=" + esp +
+            ", abs=" + abs +
+            ", doors=" + doors +
+            ", cubicCapacity=" + cubicCapacity +
+            ", numberOfSeats=" + numberOfSeats +
+            ", emissionClass=" + emissionClass +
+            ", emission=" + emission +
+            ", gearbox=" + gearbox +
+            ", carModel=" + carModel +
+            '}';
     }
 }
