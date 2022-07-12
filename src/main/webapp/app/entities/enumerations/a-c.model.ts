@@ -1,7 +1,7 @@
 export enum AC {
-  NO_AC = 'NO_AC',
+  OFF = 'OFF',
 
-  AC = 'AC',
+  ON = 'ON',
 
-  AUTOMATIC_AC = 'AUTOMATIC_AC',
+  AUTO = 'AUTO',
 }

@@ -1,7 +1,6 @@
 import { ICarModel } from 'app/entities/car-model/car-model.model';
 import { FuelType } from 'app/entities/enumerations/fuel-type.model';
 import { ListingStatus } from 'app/entities/enumerations/listing-status.model';
-import { ICategory } from '../category/category.model';
 import { AC } from '../enumerations/a-c.model';
 import { EmissionClass } from '../enumerations/emission-class.model';
 import { GearBox } from '../enumerations/gear-box.model';
@@ -14,9 +13,8 @@ export interface IVehicleListing {
   fuel?: FuelType | null;
   status?: ListingStatus | null;
   carModel?: ICarModel;
-  internalNumber?: string;
-  categories?: ICategory;
   make?: ICarModel;
+  internalNumber?: string;
   performance?: number | null;
   mot?: Date | null;
   regDate?: Date | null;
@@ -31,6 +29,7 @@ export interface IVehicleListing {
   emissionClass?: EmissionClass | null;
   emission?: number | null;
   gearbox?: GearBox | null;
+  vat?: boolean;
 }
 
 export class VehicleListing implements IVehicleListing {
@@ -42,9 +41,8 @@ export class VehicleListing implements IVehicleListing {
     public fuel?: FuelType | null,
     public status?: ListingStatus | null,
     public carModel?: ICarModel,
-    public internalNumber?: string,
-    public categories?: ICategory,
     public make?: ICarModel,
+    public internalNumber?: string,
     public mot?: Date | null,
     public regDate?: Date | null,
     public vin?: string | null,
@@ -57,7 +55,8 @@ export class VehicleListing implements IVehicleListing {
     public numberOfSeats?: number | null,
     public emissionClass?: EmissionClass | null,
     public emission?: number | null,
-    public gearbox?: GearBox | null
+    public gearbox?: GearBox | null,
+    public vat?: boolean
   ) {}
 }
 

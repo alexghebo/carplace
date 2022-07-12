@@ -27,12 +27,13 @@
             <li *ngIf="vehicleListing.cubicCapacity" class="btn-sm border border-info rounded h6">
               Cubic capacity: {{ vehicleListing.cubicCapacity }} &#13220;
             </li>
-            <li *ngIf="vehicleListing.ac" class="btn-sm border border-info rounded h6">A/C: {{ vehicleListing.ac }}</li>
             <li *ngIf="vehicleListing.make" class="btn-sm border border-info rounded h6">Make: {{ vehicleListing.carModel?.make }}</li>
+            <li *ngIf="vehicleListing.ac" class="btn-sm border border-info rounded h6">A/C: {{ vehicleListing.ac }}</li>
             <li *ngIf="vehicleListing.vin" class="btn-sm border border-info rounded h6">V.I.N: {{ vehicleListing.vin }}</li>
             <li *ngIf="vehicleListing.esp" class="btn-sm border border-info rounded h6">ESP: {{ vehicleListing.esp }}</li>
             <li *ngIf="vehicleListing.abs" class="btn-sm border border-info rounded h6">ABS: {{ vehicleListing.abs }}</li>
             <li *ngIf="vehicleListing.emission" class="btn-sm border border-info rounded h6">Emission: {{ vehicleListing.emission }}</li>
+            <li class="btn-sm border border-info rounded h6">VAT: {{ vehicleListing.vat }}</li>
           </ul>
           <p *ngIf="vehicleListing.mot" class="h6 text-justify">Technical Inspection: {{ vehicleListing.mot | date }}</p>
           <p *ngIf="vehicleListing.regDate" class="h6 text-justify mt-1">Registration Date: {{ vehicleListing.regDate | date }}</p>
@@ -43,7 +44,10 @@
         <div class="col-md-4">
           <p *ngIf="vehicleListing.price" class="h2 text-warning mt-2 text-justify">{{ vehicleListing.price | currency: 'EUR' }}</p>
           <p class="h5 text-justify mt-2">Internal Number: {{ vehicleListing.internalNumber }}</p>
-          <p class="h5 text-justify mt-2">Category: {{ vehicleListing.categories?.name }}</p>
+          <p class="h5 text-justify mt-2">Category/Categories:</p>
+          <ul class="list-unstyled m-0" *ngFor="let category of vehicleListing.carModel?.categories">
+            <li class="">{{ category.name }}</li>
+          </ul>
           <p *ngIf="vehicleListing.gearbox" class="h5 text-justify mt-2">Type of Gearbox: {{ vehicleListing.gearbox }}</p>
           <p *ngIf="vehicleListing.emissionClass" class="h5 text-justify mt-2">Emission Class: {{ vehicleListing.emissionClass }}</p>
           <p *ngIf="vehicleListing.status" class="h5 text-justify mt-2">Status: {{ vehicleListing.status }}</p>
