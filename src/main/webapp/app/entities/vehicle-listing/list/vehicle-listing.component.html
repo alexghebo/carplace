@@ -51,7 +51,7 @@
           <th scope="col" jhiSortBy="carModel.id">
             <span jhiTranslate="carplaceApp.vehicleListing.carModel">Car Model</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col"></th>
+          <th scope="col" jhiSortBy="cubicCapacity"><span>Cubic Capacity</span> <fa-icon icon="sort"></fa-icon></th>
         </tr>
       </thead>
       <tbody>
@@ -69,6 +69,7 @@
               <a [routerLink]="['/car-model', vehicleListing.carModel?.id, 'view']">{{ vehicleListing.carModel?.id }}</a>
             </div>
           </td>
+          <td>{{ vehicleListing.cubicCapacity }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

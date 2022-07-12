@@ -62,6 +62,149 @@
             </option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_make">Make</label>
+          <select class="form-control" name="make" formControlName="make" id="field_make" data-cy="make">
+            <option *ngFor="let carMake of carModelsSharedCollection" [value]="carMake.make">
+              {{ carMake.make }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_internalNumber">Internal Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="internalNumber"
+            id="field_internalNumber"
+            data-cy="internalNumber"
+            formControlName="internalNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_performance">Performance</label>
+          <input
+            type="number"
+            class="form-control"
+            name="performance"
+            id="field_performance"
+            data-cy="performance"
+            formControlName="performance"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_mot">Mot</label>
+          <input type="date" class="form-control" name="mot" id="field_mot" data-cy="mot" formControlName="mot" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_regDate">Registration Date</label>
+          <input type="date" class="form-control" name="regDate" id="field_regDate" data-cy="regDate" formControlName="regDate" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_vin">Vehicle Identification Number</label>
+          <input type="text" class="form-control" name="vin" id="field_vin" data-cy="vin" formControlName="vin" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_colour">Colour</label>
+          <input type="text" class="form-control" name="colour" id="field_colour" data-cy="colour" formControlName="colour" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ac">AC</label>
+          <select class="form-control" name="ac" formControlName="ac" id="field_ac" data-cy="ac">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let acTypeValue of acTypeValues" [value]="acTypeValue">
+              {{ acTypeValue }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_esp">ESP</label>
+          <select class="form-control" name="esp" formControlName="esp" id="field_esp" data-cy="esp">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="true">ON</option>
+            <option [ngValue]="false">OFF</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_abs">ABS</label>
+          <select class="form-control" name="abs" formControlName="abs" id="field_abs" data-cy="abs">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="true">ON</option>
+            <option [ngValue]="false">OFF</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_vat">VAT</label>
+          <select class="form-control" name="vat" formControlName="vat" id="field_vat" data-cy="vat">
+            <option [ngValue]="true">ON</option>
+            <option [ngValue]="false">OFF</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_doors">Doors</label>
+        <input type="number" class="form-control" name="doors" id="field_doors" data-cy="doors" formControlName="doors" />
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_cubicCapacity">Cubic Capacity</label>
+        <input
+          type="number"
+          class="form-control"
+          name="cubicCapacity"
+          id="field_cubicCapacity"
+          data-cy="cubicCapacity"
+          formControlName="cubicCapacity"
+        />
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_numberOfSeats">Number of Seats</label>
+        <input
+          type="number"
+          class="form-control"
+          name="numberOfSeats"
+          id="field_numberOfSeats"
+          data-cy="numberOfSeats"
+          formControlName="numberOfSeats"
+        />
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_emissionClass">Emission Class</label>
+        <select class="form-control" name="emissionClass" formControlName="emissionClass" id="field_emissionClass" data-cy="emissionClass">
+          <option [ngValue]="null"></option>
+          <option *ngFor="let emissionClassValue of emissionClassValues" [value]="emissionClassValue">
+            {{ emissionClassValue }}
+          </option>
+        </select>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_emission">Emission</label>
+        <input type="number" class="form-control" name="emission" id="field_emission" data-cy="emission" formControlName="emission" />
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_gearbox">Gearbox Type</label>
+        <select class="form-control" name="gearbox" formControlName="gearbox" id="field_gearbox" data-cy="gearbox">
+          <option [ngValue]="null"></option>
+          <option *ngFor="let gearBoxValue of gearBoxValues" [value]="gearBoxValue">
+            {{ gearBoxValue }}
+          </option>
+        </select>
       </div>
 
       <div>
@@ -80,5 +223,6 @@
         </button>
       </div>
     </form>
+    {{ editForm.value | json }}
   </div>
 </div>
