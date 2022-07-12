@@ -36,6 +36,12 @@ public class Dealer implements Serializable {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "csv_name")
+    private String csvName;
+
+    @Column(name = "auto_import")
+    private boolean autoImport;
+
     public Long getId() {
         return id;
     }
@@ -110,6 +116,32 @@ public class Dealer implements Serializable {
         this.phone = phone;
     }
 
+    public String getCsvName() {
+        return csvName;
+    }
+
+    public void setCsvName(String csvName) {
+        this.csvName = csvName;
+    }
+
+    public Dealer csvName(String csvName){
+        this.setCsvName(csvName);
+        return this;
+    }
+
+    public boolean getAutoImport() {
+        return autoImport;
+    }
+
+    public void setAutoImport(boolean autoImport) {
+        this.autoImport = autoImport;
+    }
+
+    public Dealer autoImport(boolean autoImport){
+        this.setAutoImport(autoImport);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -130,13 +162,13 @@ public class Dealer implements Serializable {
     @Override
     public String toString() {
         return "Dealer{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", city='" + getCity() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", phone=" + getPhone() +
-            "}";
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", city='" + city + '\'' +
+            ", address='" + address + '\'' +
+            ", phone='" + phone + '\'' +
+            ", csvName='" + csvName + '\'' +
+            ", autoImport=" + autoImport +
+            '}';
     }
-
-
 }

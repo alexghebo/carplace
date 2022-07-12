@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * A VehicleListing.
@@ -57,14 +57,14 @@ public class VehicleListing implements Serializable {
     private Integer performance;
 
     @Column(name = "mot")
-    private Instant mot;
+    private LocalDate mot;
 
     @Column(name = "reg_date")
-    private Instant regDate;
+    private LocalDate regDate;
 
     @NotNull
     @Column(name = "vat")
-    private Boolean vat;
+    private boolean vat;
 
     @Column(name = "vin")
     private String vin;
@@ -78,10 +78,10 @@ public class VehicleListing implements Serializable {
     private Ac ac;
 
     @Column(name = "esp")
-    private Boolean esp;
+    private boolean esp;
 
     @Column(name = "abs")
-    private Boolean abs;
+    private boolean abs;
 
     @Column(name = "doors")
     private Integer doors;
@@ -226,42 +226,42 @@ public class VehicleListing implements Serializable {
         this.performance = performance;
     }
 
-    public Instant getMot() {
+    public LocalDate getMot() {
         return mot;
     }
 
-    public VehicleListing mot(Instant mot){
+    public VehicleListing mot(LocalDate mot){
         this.setMot(mot);
         return this;
     }
 
-    public void setMot(Instant mot) {
+    public void setMot(LocalDate mot) {
         this.mot = mot;
     }
 
-    public Instant getRegDate() {
+    public LocalDate getRegDate() {
         return regDate;
     }
 
-    public VehicleListing regDate(Instant regDate){
+    public VehicleListing regDate(LocalDate regDate){
         this.setRegDate(regDate);
         return this;
     }
 
-    public void setRegDate(Instant regDate) {
+    public void setRegDate(LocalDate regDate) {
         this.regDate = regDate;
     }
 
-    public Boolean getVat() {
+    public boolean getVat() {
         return vat;
     }
 
-    public VehicleListing vat(Boolean vat){
+    public VehicleListing vat(boolean vat){
         this.setVat(vat);
         return this;
     }
 
-    public void setVat(Boolean vat) {
+    public void setVat(boolean vat) {
         this.vat = vat;
     }
 
@@ -304,27 +304,27 @@ public class VehicleListing implements Serializable {
         this.ac = ac;
     }
 
-    public Boolean getEsp() {
+    public boolean getEsp() {
         return esp;
     }
 
-    public VehicleListing esp(Boolean esp){
+    public VehicleListing esp(boolean esp){
         this.setEsp(esp);
         return this;
     }
-    public void setEsp(Boolean esp) {
+    public void setEsp(boolean esp) {
         this.esp = esp;
     }
 
-    public Boolean getAbs() {
+    public boolean getAbs() {
         return abs;
     }
 
-    public VehicleListing abs(Boolean abs){
+    public VehicleListing abs(boolean abs){
         this.setAbs(abs);
         return this;
     }
-    public void setAbs(Boolean abs) {
+    public void setAbs(boolean abs) {
         this.abs = abs;
     }
 

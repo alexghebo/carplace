@@ -1,9 +1,9 @@
 package ca.verticalidigital.carplace.importer;
 
+import ca.verticalidigital.carplace.repository.DealerRepository;
 import ca.verticalidigital.carplace.service.VehicleListingService;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.event.S3EventNotification;
 import com.amazonaws.services.s3.model.S3Object;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -13,51 +13,71 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableScheduling
 @Component
 public class AWSHelper {
     private final VehicleListingService vehicleListingService;
-
+    private final DealerRepository dealerRepository;
     private final AmazonS3 s3Client;
-
     @Value("${aws.bucket}")
     private String BUCKET_NAME;
-    @Value("${aws.object}")
-    private String OBJECT_NAME;
-
 
     public AWSHelper(
         VehicleListingService vehicleListingService,
-        AmazonS3 s3Client){
+        AmazonS3 s3Client,
+        DealerRepository dealerRepository){
         this.vehicleListingService = vehicleListingService;
         this.s3Client = s3Client;
+        this.dealerRepository = dealerRepository;
     }
 
     @Scheduled(fixedRate = 60000*60)
     public void execute() throws IOException, CsvValidationException {
-        S3Object s3Object = this.getObject(s3Client);
-        BufferedReader br = read(s3Object);
-        CsvSchema schema = createSchema();
-        List<VehicleListingDTO> list = getListFromCSV(br,schema);
+        List<BufferedReader> brs = readS3object(getS3objects(s3Client,getDealersCsv()));
+        List<VehicleListingDTO> list = getAllVehicle(brs);
         vehicleListingService.saveAll(list);
     }
 
-
-    public S3Object getObject(AmazonS3 s3){
-        return s3.getObject(BUCKET_NAME,OBJECT_NAME);
+    public List<String> getDealersCsv(){
+        List<String> dealerCsv = new ArrayList<>();
+        dealerRepository.findAllByAutoImportTrue()
+            .forEach(
+                t->dealerCsv.add(
+                    (t.getCsvName().endsWith(".csv") ? t.getCsvName() : t.getCsvName() + ".csv")
+                )
+            );
+        return dealerCsv;
     }
 
-    public BufferedReader read(S3Object s3Object) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(s3Object.getObjectContent()));
-        br.readLine();
-        return br;
+    public List<S3Object> getS3objects(AmazonS3 s3, List<String> dealerCsv){
+        List<S3Object> awsObj = new ArrayList<>();
+        dealerCsv.forEach(t-> awsObj.add(s3.getObject(BUCKET_NAME,t)));
+        return awsObj;
     }
-    private CsvSchema createSchema() {
+
+    public List<BufferedReader> readS3object(List<S3Object> s3Object) {
+        List<BufferedReader> read = new ArrayList<>();
+        s3Object.forEach(t-> read.add(new BufferedReader(new InputStreamReader(t.getObjectContent()))));
+        return read;
+    }
+
+    private List<VehicleListingDTO> getListFromCSV(BufferedReader br) throws IOException {
+        CsvSchema schema = createSchema(br);
+        MappingIterator<VehicleListingDTO> list
+            = new CsvMapper().readerWithTypedSchemaFor(VehicleListingDTO.class)
+            .with(schema)
+            .readValues(br);
+        return list.readAll();
+    }
+    public CsvSchema createSchema(BufferedReader br) throws IOException {
+        char separator = (br.readLine().contains(";") ? ';' : ',');
         return CsvSchema.builder()
             .addColumn("price", CsvSchema.ColumnType.NUMBER)
             .addColumn("year", CsvSchema.ColumnType.NUMBER)
@@ -79,14 +99,14 @@ public class AWSHelper {
             .addColumn("emission", CsvSchema.ColumnType.NUMBER)
             .addColumn("gearbox", CsvSchema.ColumnType.STRING)
             .build()
-            .withColumnSeparator(';');
-    }
-    private List<VehicleListingDTO> getListFromCSV(BufferedReader br, CsvSchema schema) throws IOException {
-        MappingIterator<VehicleListingDTO> list
-            = new CsvMapper().readerWithTypedSchemaFor(VehicleListingDTO.class)
-            .with(schema)
-            .readValues(br);
-        return list.readAll();
+            .withColumnSeparator(separator);
     }
 
+    public List<VehicleListingDTO> getAllVehicle(List<BufferedReader> brs) throws IOException {
+        List<VehicleListingDTO> list = new ArrayList<>();
+        for(BufferedReader br : brs){
+            list.addAll(getListFromCSV(br));
+        }
+        return list;
+    }
 }

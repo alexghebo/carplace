@@ -34,6 +34,7 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public void createDealer(Dealer dealer) {
+        dealer.setAutoImport(false);
         dealerRepository.save(dealer);
     }
 

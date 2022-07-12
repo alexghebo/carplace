@@ -26,6 +26,12 @@
             <column name="phone" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="csv_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="auto_import" type="boolean" valueBoolean="false">
+                <constraints nullable="true" />
+            </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -68,6 +74,7 @@
             <column name="city" type="string"/>
             <column name="address" type="string"/>
             <column name="phone" type="string"/>
+            <column name="auto_import" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -35,11 +35,11 @@ public class VehicleListingDTO implements Serializable {
 
     private Integer performance;
 
-    private Instant mot;
+    private LocalDate mot;
 
-    private Instant regDate;
+    private LocalDate regDate;
 
-    private Boolean vat;
+    private boolean vat;
 
     private String vin;
 
@@ -48,9 +48,9 @@ public class VehicleListingDTO implements Serializable {
 
     private Ac ac;
 
-    private Boolean esp;
+    private boolean esp;
 
-    private Boolean abs;
+    private boolean abs;
 
     private Integer doors;
 
@@ -129,27 +129,27 @@ public class VehicleListingDTO implements Serializable {
         this.performance = performance;
     }
 
-    public Instant getMot() {
+    public LocalDate getMot() {
         return mot;
     }
 
-    public void setMot(Instant mot) {
+    public void setMot(LocalDate mot) {
         this.mot = mot;
     }
 
-    public Instant getRegDate() {
+    public LocalDate getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(Instant regDate) {
+    public void setRegDate(LocalDate regDate) {
         this.regDate = regDate;
     }
 
-    public Boolean getVat() {
+    public boolean getVat() {
         return vat;
     }
 
-    public void setVat(Boolean vat) {
+    public void setVat(boolean vat) {
         this.vat = vat;
     }
 
@@ -177,19 +177,19 @@ public class VehicleListingDTO implements Serializable {
         this.ac = ac;
     }
 
-    public Boolean getEsp() {
+    public boolean getEsp() {
         return esp;
     }
 
-    public void setEsp(Boolean esp) {
+    public void setEsp(boolean esp) {
         this.esp = esp;
     }
 
-    public Boolean getAbs() {
+    public boolean getAbs() {
         return abs;
     }
 
-    public void setAbs(Boolean abs) {
+    public void setAbs(boolean abs) {
         this.abs = abs;
     }
 

@@ -17,6 +17,10 @@ public class DealerDTO implements Serializable {
 
     private String phone;
 
+    private String csvName;
+
+    private Boolean autoImport;
+
     public DealerDTO() {
     }
 
@@ -68,6 +72,22 @@ public class DealerDTO implements Serializable {
         this.phone = phone;
     }
 
+    public String getCsvName() {
+        return csvName;
+    }
+
+    public void setCsvName(String csvName) {
+        this.csvName = csvName;
+    }
+
+    public Boolean getAutoImport() {
+        return autoImport;
+    }
+
+    public void setAutoImport(Boolean autoImport) {
+        this.autoImport = autoImport;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,12 +112,13 @@ public class DealerDTO implements Serializable {
     @Override
     public String toString() {
         return "DealerDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", city='" + getCity() + "'" +
-            ", address=" + getAddress() +
-            ", phone=" + getPhone() +
-            "}";
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", city='" + city + '\'' +
+            ", address='" + address + '\'' +
+            ", phone='" + phone + '\'' +
+            ", csvName='" + csvName + '\'' +
+            ", autoImport=" + autoImport +
+            '}';
     }
-
 }

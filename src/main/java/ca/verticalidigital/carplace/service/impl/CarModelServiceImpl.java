@@ -110,14 +110,13 @@ public class CarModelServiceImpl implements CarModelService {
     @Override
     public CarModel getExistingModel(CarModelDTO carModelDTO) {
         Optional<CarModel> carModel = carModelRepository.findByMakeAndModelAndLaunchYear(carModelDTO.getMake(), carModelDTO.getModel(), carModelDTO.getLaunchYear());
-        if(carModel.isPresent()){
+        if(carModel.isPresent()) {
             Set<CategoryDTO> categoryDTOS = categoryService.getExistingCategory(carModelDTO.getCategories());
             CarModel model = carModel.get();
             model.setCategories(categoryMapper.toEntity(categoryDTOS));
             return model;
-        }else {
-            return null;
         }
+        return null;
     }
 
 }

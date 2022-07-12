@@ -35,10 +35,10 @@
             <column name="performance" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="mot" type="timestamp">
+            <column name="mot" type="date">
                 <constraints nullable="true"/>
             </column>
-            <column name="reg_date" type="timestamp">
+            <column name="reg_date" type="date">
                 <constraints nullable="true"/>
             </column>
             <column name="vat" type="boolean" valueBoolean="false">
@@ -110,7 +110,6 @@
             <column name="mileage" type="numeric"/>
             <column name="fuel" type="string"/>
             <column name="status" type="string"/>
-
             <column name="internal_number" type="string"/>
             <column name="performance" type="numeric"/>
             <column name="vat" type="boolean"/>
@@ -125,7 +124,7 @@
             <column name="emission_class" type="string"/>
             <column name="emission" type="numeric"/>
             <column name="gearbox" type="string"/>
-            <column name="reg_date" type="timestamp"/>
+            <column name="reg_date" type="date"/>
 
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

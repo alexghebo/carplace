@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -132,14 +130,10 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     }
 
     public CarModel getExistingModel(CarModelDTO carModelDTO){
-        if(carModelDTO==null){
+        if(carModelDTO==null) {
             return null;
-        }else{
-            return carModelService.getExistingModel(carModelDTO);
         }
-    }
-    private Instant getInstant(){
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return timestamp.toInstant();
+        return carModelService.getExistingModel(carModelDTO);
+
     }
 }

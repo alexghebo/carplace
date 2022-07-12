@@ -23,7 +23,6 @@ public interface VehicleListingService {
      * Save a vehicleListing list.
      *
      * @param vehicleListingDTO the entity to save.
-     * @return the persisted entity.
      */
     void saveAll(List<VehicleListingDTO> vehicleListingDTO);
 
