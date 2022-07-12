@@ -2,6 +2,8 @@ package ca.verticalidigital.carplace.service;
 
 import ca.verticalidigital.carplace.service.dto.CategoryDTO;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -55,4 +57,6 @@ public interface CategoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Set<CategoryDTO> getExistingCategory(Set<CategoryDTO> categories);
 }

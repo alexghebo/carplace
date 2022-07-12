@@ -1,15 +1,19 @@
 package ca.verticalidigital.carplace.service.impl;
 
+import ca.verticalidigital.carplace.domain.CarModel;
 import ca.verticalidigital.carplace.domain.VehicleListing;
 import ca.verticalidigital.carplace.repository.VehicleListingRepository;
 import ca.verticalidigital.carplace.service.CarModelService;
 import ca.verticalidigital.carplace.service.VehicleListingService;
+import ca.verticalidigital.carplace.service.dto.CarModelDTO;
 import ca.verticalidigital.carplace.service.dto.VehicleListingDTO;
 import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
 import ca.verticalidigital.carplace.service.mapper.VehicleListingMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -47,9 +51,16 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     public VehicleListingDTO save(VehicleListingDTO vehicleListingDTO) {
         log.debug("Request to save VehicleListing : {}", vehicleListingDTO);
         VehicleListing vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
-        vehicleListing.setCarModel(null);
+        vehicleListing.setCarModel(getModel(vehicleListingDTO.getCarModel()));
         vehicleListing = vehicleListingRepository.save(vehicleListing);
         return vehicleListingMapper.toDto(vehicleListing);
+    }
+
+    private CarModel getModel(CarModelDTO carModelDTO) {
+        if(carModelDTO==null){
+            return null;
+        }
+        return carModelService.getModel(carModelDTO);
     }
 
     @Override
@@ -98,8 +109,17 @@ public class VehicleListingServiceImpl implements VehicleListingService {
     @Override
     public void saveAll(List<VehicleListingDTO> vehicleListingDTO) {
         log.debug("Request to save VehicleListing list : {}", vehicleListingDTO);
-        List<VehicleListing> vehicleListing = vehicleListingMapper.toEntity(vehicleListingDTO);
 
-        vehicleListingRepository.saveAll(vehicleListing);
+        List<VehicleListing> existingVehicle =
+            vehicleListingRepository.findByInternalNumberIn(vehicleListingDTO.stream().map(
+                VehicleListingDTO::getInternalNumber)
+                .collect(Collectors.toList()));
+        
+        vehicleListingDTO.removeIf(
+            x1->existingVehicle
+                .stream()
+                .anyMatch(x2->x1.getInternalNumber().equals(x2.getInternalNumber()))
+        );
+        vehicleListingRepository.saveAll(vehicleListingMapper.toEntity(vehicleListingDTO));
     }
 }

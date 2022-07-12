@@ -3,9 +3,14 @@ package ca.verticalidigital.carplace.service.impl;
 import ca.verticalidigital.carplace.domain.CarModel;
 import ca.verticalidigital.carplace.repository.CarModelRepository;
 import ca.verticalidigital.carplace.service.CarModelService;
+import ca.verticalidigital.carplace.service.CategoryService;
 import ca.verticalidigital.carplace.service.dto.CarModelDTO;
+import ca.verticalidigital.carplace.service.dto.CategoryDTO;
 import ca.verticalidigital.carplace.service.mapper.CarModelMapper;
 import java.util.Optional;
+import java.util.Set;
+
+import ca.verticalidigital.carplace.service.mapper.CategoryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,12 +26,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class CarModelServiceImpl implements CarModelService {
 
     private final Logger log = LoggerFactory.getLogger(CarModelServiceImpl.class);
+    private final CategoryMapper categoryMapper;
+
+    private final CategoryService categoryService;
 
     private final CarModelRepository carModelRepository;
 
     private final CarModelMapper carModelMapper;
 
-    public CarModelServiceImpl(CarModelRepository carModelRepository, CarModelMapper carModelMapper) {
+    public CarModelServiceImpl(CategoryMapper categoryMapper, CategoryService categoryService, CarModelRepository carModelRepository, CarModelMapper carModelMapper) {
+        this.categoryMapper = categoryMapper;
+        this.categoryService = categoryService;
         this.carModelRepository = carModelRepository;
         this.carModelMapper = carModelMapper;
     }
@@ -84,5 +94,18 @@ public class CarModelServiceImpl implements CarModelService {
     public void delete(Long id) {
         log.debug("Request to delete CarModel : {}", id);
         carModelRepository.deleteById(id);
+    }
+
+    @Override
+    public CarModel getModel(CarModelDTO carModelDTO) {
+        Optional<CarModel> carModel = carModelRepository.findByMakeAndModelAndLaunchYear(carModelDTO.getMake(), carModelDTO.getModel(), carModelDTO.getLaunchYear());
+        if (carModel.isPresent()) {
+            Set<CategoryDTO> categoryDTOS = categoryService.getExistingCategory(carModelDTO.getCategories());
+            CarModel model = carModel.get();
+            model.setCategories(categoryMapper.toEntity(categoryDTOS));
+            return model;
+        } else {
+            return null;
+        }
     }
 }

@@ -5,7 +5,11 @@ import ca.verticalidigital.carplace.repository.CategoryRepository;
 import ca.verticalidigital.carplace.service.CategoryService;
 import ca.verticalidigital.carplace.service.dto.CategoryDTO;
 import ca.verticalidigital.carplace.service.mapper.CategoryMapper;
+
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -81,4 +85,15 @@ public class CategoryServiceImpl implements CategoryService {
         log.debug("Request to delete Category : {}", id);
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public Set<CategoryDTO> getExistingCategory(Set<CategoryDTO> categoriesDTOS) {
+        Set<Category> categories = new HashSet<>();
+        for(CategoryDTO categoryDTO : categoriesDTOS){
+            Optional<Category> category = categoryRepository.findByName(categoryDTO.getName());
+            category.ifPresent(categories::add);
+        }
+        return categoryMapper.toDto(categories);
+    }
+
 }

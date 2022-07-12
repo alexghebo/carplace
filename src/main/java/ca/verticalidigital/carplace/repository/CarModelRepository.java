@@ -26,4 +26,6 @@ public interface CarModelRepository
     default Page<CarModel> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    Optional<CarModel> findByMakeAndModelAndLaunchYear(String make, String model, Integer launchYear);
 }
